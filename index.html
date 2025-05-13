@@ -120,6 +120,7 @@
       justify-content: center;
       list-style-type: none;
       padding: 0;
+      margin: 0;
     }
     
     .navbar li {
@@ -170,6 +171,12 @@
       background-color: #3a6b56;
       color: white;
       font-size: 1.2rem;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .menu-toggle i {
+      margin-right: 8px;
     }
     
     /* SECTION STYLES */
@@ -797,7 +804,7 @@
       }
       
       .menu-toggle {
-        display: block;
+        display: flex;
       }
       
       .navbar {
@@ -817,6 +824,7 @@
       .navbar a {
         padding: 15px;
         text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
       }
       
       .mission-card, .defense-card, .officer-card, 
@@ -898,12 +906,13 @@
   <div class="menu-toggle" id="mobile-menu">
     <i class="fas fa-bars"></i> Menu
   </div>
-   <div class="slogan">
-  <h1>The solider is true hero of any nation </h1>
- </div>
+  <div class="slogan">
+    <h1>The soldier is true hero of any nation</h1>
+  </div>
+  
   <!-- Navigation -->
   <nav>
-    <ul class="navbar">
+    <ul class="navbar" id="navbar">
       <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#missions">Missions</a></li>
@@ -924,9 +933,9 @@
       <p>"Service Before Self" — Defending the nation with honor, bravery, and sacrifice.</p>
       <a href="#about" class="btn">Explore More</a>
     </div>
- 
   </section>
 
+  <!-- Rest of your HTML content remains the same -->
   <!-- About Section -->
   <section id="about">
     <div class="container">
@@ -1314,6 +1323,23 @@
       <a href="#home" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
     
       <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navbar = document.getElementById('navbar');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+          navbar.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.navbar a').forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              navbar.classList.remove('active');
+            }
+          });
+        });
+        
         // Back to Top Button
         const backToTopButton = document.querySelector('.back-to-top');
         
@@ -1337,156 +1363,155 @@
         });
         
         const animateOnScroll = () => {
-  const elements = document.querySelectorAll('.mission-card, .defense-card, .officer-card, .victory-card, .recruit-box, .blog-card, .award-item, .gallery-item, .feature-box, .stats-item');
-  
-  elements.forEach((element, index) => {
-    const elementPosition = element.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
-    
-    if (elementPosition < windowHeight - 100) {
-      // Different animations based on element type or position
-      if (element.classList.contains('gallery-item')) {
-        element.style.opacity = '1';
-        element.style.transform = 'scale(1) rotate(0deg)';
-        element.style.filter = 'blur(0)';
-      } else if (element.classList.contains('award-item')) {
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0) rotateY(0deg)';
-        element.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
-      } else {
-        // Staggered animation based on index
-        setTimeout(() => {
-          element.style.opacity = '1';
-          element.style.transform = 'translateY(0)';
-        }, (index % 5) * 100);
-      }
-    }
-  });
-  
-  // Animate background elements
-  const bgElements = document.querySelectorAll('.bg-particle');
-  bgElements.forEach(el => {
-    const scrollPos = window.scrollY;
-    el.style.transform = `translateY(${scrollPos * 0.3}px) rotate(${scrollPos * 0.05}deg)`;
-  });
-};
+          const elements = document.querySelectorAll('.mission-card, .defense-card, .officer-card, .victory-card, .recruit-box, .blog-card, .award-item, .gallery-item, .feature-box, .stats-item');
+          
+          elements.forEach((element, index) => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementPosition < windowHeight - 100) {
+              // Different animations based on element type or position
+              if (element.classList.contains('gallery-item')) {
+                element.style.opacity = '1';
+                element.style.transform = 'scale(1) rotate(0deg)';
+                element.style.filter = 'blur(0)';
+              } else if (element.classList.contains('award-item')) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0) rotateY(0deg)';
+                element.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+              } else {
+                // Staggered animation based on index
+                setTimeout(() => {
+                  element.style.opacity = '1';
+                  element.style.transform = 'translateY(0)';
+                }, (index % 5) * 100);
+              }
+            }
+          });
+          
+          // Animate background elements
+          const bgElements = document.querySelectorAll('.bg-particle');
+          bgElements.forEach(el => {
+            const scrollPos = window.scrollY;
+            el.style.transform = `translateY(${scrollPos * 0.3}px) rotate(${scrollPos * 0.05}deg)`;
+          });
+        };
 
-// Set initial state for animated elements
-document.querySelectorAll('.mission-card, .defense-card, .officer-card, .victory-card, .recruit-box, .blog-card, .award-item, .gallery-item, .feature-box, .stats-item').forEach(element => {
-  element.style.opacity = '0';
-  
-  // Different initial states based on element type
-  if (element.classList.contains('gallery-item')) {
-    element.style.transform = 'scale(0.8) rotate(5deg)';
-    element.style.filter = 'blur(2px)';
-    element.style.transition = 'all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-  } else if (element.classList.contains('award-item')) {
-    element.style.transform = 'translateY(50px) rotateY(90deg)';
-    element.style.transition = 'all 0.8s ease-out';
-  } else if (element.classList.contains('stats-item')) {
-    element.style.transform = 'scale(0.5)';
-    element.style.transition = 'all 0.6s ease-in-out';
-  } else {
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  }
-});
+        // Set initial state for animated elements
+        document.querySelectorAll('.mission-card, .defense-card, .officer-card, .victory-card, .recruit-box, .blog-card, .award-item, .gallery-item, .feature-box, .stats-item').forEach(element => {
+          element.style.opacity = '0';
+          
+          // Different initial states based on element type
+          if (element.classList.contains('gallery-item')) {
+            element.style.transform = 'scale(0.8) rotate(5deg)';
+            element.style.filter = 'blur(2px)';
+            element.style.transition = 'all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          } else if (element.classList.contains('award-item')) {
+            element.style.transform = 'translateY(50px) rotateY(90deg)';
+            element.style.transition = 'all 0.8s ease-out';
+          } else if (element.classList.contains('stats-item')) {
+            element.style.transform = 'scale(0.5)';
+            element.style.transition = 'all 0.6s ease-in-out';
+          } else {
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          }
+        });
 
-// Add background particles
-const addParticles = () => {
-  const particleContainer = document.createElement('div');
-  particleContainer.className = 'particle-container';
-  particleContainer.style.position = 'fixed';
-  particleContainer.style.top = '0';
-  particleContainer.style.left = '0';
-  particleContainer.style.width = '100%';
-  particleContainer.style.height = '100%';
-  particleContainer.style.pointerEvents = 'none';
-  particleContainer.style.zIndex = '-1';
-  
-  for (let i = 0; i < 30; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'bg-particle';
-    particle.style.position = 'absolute';
-    particle.style.width = `${Math.random() * 10 + 5}px`;
-    particle.style.height = particle.style.width;
-    particle.style.background = `rgba(255,255,255,${Math.random() * 0.2 + 0.05})`;
-    particle.style.borderRadius = '50%';
-    particle.style.top = `${Math.random() * 100}%`;
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.transition = 'transform 0.3s linear';
-    
-    // Add subtle animation
-    setInterval(() => {
-      particle.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`;
-    }, 3000 + Math.random() * 4000);
-    
-    particleContainer.appendChild(particle);
-  }
-  
-  document.body.appendChild(particleContainer);
-};
+        // Add background particles
+        const addParticles = () => {
+          const particleContainer = document.createElement('div');
+          particleContainer.className = 'particle-container';
+          particleContainer.style.position = 'fixed';
+          particleContainer.style.top = '0';
+          particleContainer.style.left = '0';
+          particleContainer.style.width = '100%';
+          particleContainer.style.height = '100%';
+          particleContainer.style.pointerEvents = 'none';
+          particleContainer.style.zIndex = '-1';
+          
+          for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'bg-particle';
+            particle.style.position = 'absolute';
+            particle.style.width = `${Math.random() * 10 + 5}px`;
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(255,255,255,${Math.random() * 0.2 + 0.05})`;
+            particle.style.borderRadius = '50%';
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.transition = 'transform 0.3s linear';
+            
+            // Add subtle animation
+            setInterval(() => {
+              particle.style.transform = `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`;
+            }, 3000 + Math.random() * 4000);
+            
+            particleContainer.appendChild(particle);
+          }
+          
+          document.body.appendChild(particleContainer);
+        };
 
-// Add floating highlights
-const addHighlights = () => {
-  const highlight = document.createElement('div');
-  highlight.className = 'floating-highlight';
-  highlight.style.position = 'fixed';
-  highlight.style.width = '200px';
-  highlight.style.height = '200px';
-  highlight.style.background = 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)';
-  highlight.style.borderRadius = '50%';
-  highlight.style.pointerEvents = 'none';
-  highlight.style.zIndex = '-1';
-  highlight.style.transition = 'transform 0.5s ease-out';
-  
-  document.body.appendChild(highlight);
-  
-  document.addEventListener('mousemove', (e) => {
-    highlight.style.left = `${e.clientX - 100}px`;
-    highlight.style.top = `${e.clientY - 100}px`;
-  });
-};
+        // Add floating highlights
+        const addHighlights = () => {
+          const highlight = document.createElement('div');
+          highlight.className = 'floating-highlight';
+          highlight.style.position = 'fixed';
+          highlight.style.width = '200px';
+          highlight.style.height = '200px';
+          highlight.style.background = 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)';
+          highlight.style.borderRadius = '50%';
+          highlight.style.pointerEvents = 'none';
+          highlight.style.zIndex = '-1';
+          highlight.style.transition = 'transform 0.5s ease-out';
+          
+          document.body.appendChild(highlight);
+          
+          document.addEventListener('mousemove', (e) => {
+            highlight.style.left = `${e.clientX - 100}px`;
+            highlight.style.top = `${e.clientY - 100}px`;
+          });
+        };
 
-// Add animated gradient background
-const addAnimatedBackground = () => {
-  const bg = document.createElement('div');
-  bg.className = 'animated-bg';
-  bg.style.position = 'fixed';
-  bg.style.top = '0';
-  bg.style.left = '0';
-  bg.style.width = '100%';
-  bg.style.height = '100%';
-  bg.style.zIndex = '-2';
-  bg.style.background = 'linear-gradient(45deg, #1a1a2e, #16213e, #0f3460)';
-  bg.style.backgroundSize = '300% 300%';
-  bg.style.animation = 'gradientShift 15s ease infinite';
-  
-  // Add keyframes dynamically
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  document.body.appendChild(bg);
-};
+        // Add animated gradient background
+        const addAnimatedBackground = () => {
+          const bg = document.createElement('div');
+          bg.className = 'animated-bg';
+          bg.style.position = 'fixed';
+          bg.style.top = '0';
+          bg.style.left = '0';
+          bg.style.width = '100%';
+          bg.style.height = '100%';
+          bg.style.zIndex = '-2';
+          bg.style.background = 'linear-gradient(45deg, #1a1a2e, #16213e, #0f3460)';
+          bg.style.backgroundSize = '300% 300%';
+          bg.style.animation = 'gradientShift 15s ease infinite';
+          
+          // Add keyframes dynamically
+          const style = document.createElement('style');
+          style.textContent = `
+            @keyframes gradientShift {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `;
+          document.head.appendChild(style);
+          
+          document.body.appendChild(bg);
+        };
 
-// Initialize all effects
-window.addEventListener('DOMContentLoaded', () => {
-  addParticles();
-  addHighlights();
-  addAnimatedBackground();
-  animateOnScroll(); // Run once on load
-});
+        // Initialize all effects
+        window.addEventListener('DOMContentLoaded', () => {
+          addParticles();
+          addHighlights();
+          addAnimatedBackground();
+          animateOnScroll(); // Run once on load
+        });
 
-window.addEventListener('scroll', animateOnScroll);
-window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
       </script>
     </body>
     </html>
-   
